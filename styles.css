@@ -1,0 +1,27 @@
+#task-reminder-bar {
+    background-color: #ffeb3b;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+  }
+  
+  .container {
+    width: 300px;
+    padding: 15px;
+  }
+  
+  #taskNote {
+    width: 100%;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+  }
