@@ -1,7 +1,8 @@
 let currentTask = null; // Store the task locally
 let allowClose = false; // Flag to allow tab closure programmatically
+let taskCompleted = false; // Flag to track task completion
 
-// Display the task at the top of the page
+// Display the task at the top of the page with a "Mark as Completed" button
 function displayTask(task) {
     let taskBar = document.getElementById('task-reminder-bar');
     if (!taskBar) {
@@ -16,7 +17,18 @@ function displayTask(task) {
         taskBar.style.zIndex = '9999';
         document.body.appendChild(taskBar);
     }
-    taskBar.innerHTML = `<strong>Your Task:</strong> ${task}`;
+    taskBar.innerHTML = `
+        <strong>Your Task:</strong> ${task}
+        <button id="mark-completed-btn" style="margin-left: 10px;">Mark as Completed</button>
+    `;
+
+    // Add event listener to the "Mark as Completed" button
+    document.getElementById('mark-completed-btn').addEventListener('click', () => {
+        taskCompleted = true;
+        allowClose = true; // Allow the tab to close
+        taskBar.innerHTML = `<strong>Task Completed:</strong> ${task}`;
+        console.log('Task marked as completed.');
+    });
 }
 
 // List of websites to automatically prompt for a task
@@ -55,7 +67,7 @@ chrome.runtime.onMessage.addListener((message) => {
 
 // Intercept page closing
 window.addEventListener('beforeunload', (e) => {
-    if (currentTask && !allowClose) {
+    if (currentTask && !allowClose && !taskCompleted) {
         e.preventDefault();
         e.returnValue = ''; // Required for some browsers
 
