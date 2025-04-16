@@ -209,6 +209,7 @@ chrome.runtime.onMessage.addListener((message) => {
 // Intercept page closing
 window.addEventListener('beforeunload', (e) => {
     if (currentTask && !allowClose && !taskCompleted) {
+    if (currentTask && !allowClose && !taskCompleted) {
         e.preventDefault();
         e.returnValue = ''; // Required for some browsers
 
