@@ -1,19 +1,25 @@
 # Task Reminder Extension
 
-This is a Chrome extension designed to help users stay focused on their tasks while browsing specific websites. It prompts users to set a task when visiting target websites and provides gentle reminders to complete the task before leaving the page.
+## Stay Focused, Be Productive
 
-## Features
-- Prompts users to set a task for specific websites.
-- Displays the task prominently on the page.
-- Sends notifications to remind users of their task.
-- Prevents accidental tab closure until the task is completed.
+Task Reminder is a Chrome extension designed to help you stay on track with your goals while browsing potentially distracting websites. We all know how easy it is to lose track of time on social media platforms.
+
+This extension gently reminds you of your purpose when visiting specific websites, helping you maintain focus and intentionality in your online activities.
 
 ## Installation
-1. Clone this repository.
-2. Load the extension in Chrome via `chrome://extensions`.
-3. Enable "Developer mode" and load the unpacked extension.
+
+1. Clone this repository to your local machine
+2. Open Chrome and navigate to `chrome://extensions/`
+3. Enable "Developer mode" (toggle in the top-right corner)
+4. Click "Load unpacked" and select the extension directory
+5. The extension icon should now appear in your browser toolbar
 
 ## Usage
-- Visit a target website (e.g., Facebook, Instagram).
-- Set a task when prompted.
-- Complete the task before closing the tab.
+
+- **Add Target Websites**: Click the extension icon and add websites you want to monitor
+- **Visit a Target Site**: When you visit a site on your list, you'll be prompted to:
+  - Enter the specific task you want to complete
+  - Select how much time you'll need (5, 10, or 30 minutes)
+- **Stay On Task**: A timer will count down while you work
+- **Complete Your Task**: Click "Mark as Completed" when you're done
+- **Time's Up**: Receive a friendly reminder when your allocated time expires
