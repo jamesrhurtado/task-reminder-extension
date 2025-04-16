@@ -5,9 +5,16 @@
 </head>
 <body>
   <div class="container">
-    <h3>Set Task for This Website</h3>
-    <textarea id="taskNote" placeholder="What do you need to do here?"></textarea>
-    <button id="saveTask">Save Task</button>
+    <h3>Manage Target Websites</h3>
+    <div class="website-manager">
+      <input type="text" id="newWebsite" placeholder="Enter website URL (e.g., facebook.com)">
+      <button id="addWebsite">Add</button>
+      
+      <div class="website-list-container">
+        <h4>Current Target Websites:</h4>
+        <ul id="websiteList"></ul>
+      </div>
+    </div>
   </div>
   <script src="popup.js"></script>
 </body>
