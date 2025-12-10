@@ -5,16 +5,16 @@
   "description": "Stay focused by defining your task before visiting distracting sites.",
   "permissions": ["tabs", "storage", "scripting"],
   "background": {
-    "service_worker": "background/background.js",
+    "service_worker": "src/background/backgroundScript.ts",
     "type": "module"
   },
   "action": {
-    "default_popup": "popup/popup.html"
+    "default_popup": "src/popup/popup.html"
   },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["content/contentScript.js"]
+      "js": ["src/content/contentScript.ts"]
     }
   ]
 }
