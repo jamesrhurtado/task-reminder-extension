@@ -1,0 +1,12 @@
+#focus-task-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #111;
+  color: #fff;
+  padding: 12px;
+  font-size: 14px;
+  z-index: 999999;
+  text-align: center;
+}

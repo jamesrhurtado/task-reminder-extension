@@ -1,0 +1,25 @@
+body {
+  min-width: 280px;
+  font-family: system-ui, sans-serif;
+  padding: 12px;
+}
+
+input {
+  width: 100%;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+button {
+  width: 100%;
+}
+
+
+button:hover {
+  background-color: #357ae8;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}

@@ -6,7 +6,7 @@
   "permissions": ["tabs", "storage", "scripting"],
   "host_permissions": ["<all_urls>"],
   "background": {
-    "service_worker": "src/background/background.js",
+    "service_worker": "src/background/index.js",
     "type": "module"
   },
   "action": {
@@ -25,7 +25,7 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "js": ["src/content/contentScript.js"]
+      "js": ["src/content/index.js"]
     }
   ]
 }

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head><title>FocusTask</title></head>
-  <body>
-    <h3>FocusTask</h3>
-    <p>Your extension is running!</p>
-    <script type="module" src="./popup.ts"></script>
-  </body>
+<head>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <h3>What is your task?</h3>
+  <input id="taskInput" placeholder="e.g. Check Marketplace item" />
+  <button id="saveBtn">Save</button>
+
+  <script type="module" src="./popup.ts"></script>
+</body>
 </html>
