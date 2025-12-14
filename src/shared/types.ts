@@ -9,3 +9,7 @@ export type FocusTask = {
 export type ExtensionMessage =
   | { type: "GET_ACTIVE_TASK"; site: string }
   | { type: "CREATE_TASK"; task: FocusTask }
+  | { type: "TASK_COMPLETED" }
+  | { type: "COMPLETE_TASK_MANUALLY" }
+  | { type: "TASK_COMPLETED_UI" }
+

@@ -13,3 +13,20 @@ export async function saveTask(task: FocusTask) {
   tasks[task.site] = task
   await storage.set(TASK_KEY, tasks)
 }
+
+export async function completeTaskForSite(url?: string) {
+  if (!url) return
+
+  const site = new URL(url).hostname
+  const task = await getTaskForSite(site)
+
+  if (!task) return
+  if (task.completed) return
+
+  const completedTask = {
+    ...task,
+    completed: true
+  }
+
+  await saveTask(completedTask)
+}
