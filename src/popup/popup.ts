@@ -17,17 +17,9 @@ button.addEventListener("click", async () => {
     completed: false
   }
 
-  chrome.runtime.sendMessage(
-    { type: "CREATE_TASK", task },
-    async () => {
-      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
-      if (tab?.id) {
-        chrome.tabs.sendMessage(tab.id, {
-          type: "TASK_CREATED",
-          task
-        })
-      }
-      window.close()
-    }
-  )
+chrome.runtime.sendMessage({ type: "CREATE_TASK", task }, (response) => {
+  if (response?.success) {
+    window.close()
+  }
+})
 })

@@ -1,3 +1,5 @@
+import "./banner.css"
+
 export function renderBanner(description: string) {
   if (document.getElementById("focus-task-banner")) return
 

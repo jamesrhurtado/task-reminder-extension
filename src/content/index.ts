@@ -2,7 +2,7 @@ import { renderBanner } from "./banner/banner"
 
 const site = window.location.hostname
 let hasActiveTask = false
-
+let isActuallyLeaving = false
 
 chrome.runtime.sendMessage(
   { type: "GET_ACTIVE_TASK", site },
@@ -15,14 +15,15 @@ chrome.runtime.sendMessage(
 )
 
 chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === "TASK_CREATED") {
-    hasActiveTask = true
-  }
-})
+  switch (msg.type) {
+    case "TASK_CREATED":
+      hasActiveTask = true
+      renderBanner(msg.task.description)
+      break
 
-chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === "TASK_COMPLETED_UI") {
-    hasActiveTask = false
+    case "TASK_COMPLETED_UI":
+      hasActiveTask = false
+      break
   }
 })
 
@@ -30,15 +31,17 @@ chrome.runtime.onMessage.addListener((msg) => {
 window.addEventListener("beforeunload", (event) => {
   if (!hasActiveTask) return
 
-  // Required to trigger the confirmation dialog
+  isActuallyLeaving = true
   event.preventDefault()
   event.returnValue = ""
 })
 
 document.addEventListener("visibilitychange", () => {
-  if (document.visibilityState === "hidden" && hasActiveTask) {
-    chrome.runtime.sendMessage({
-      type: "TASK_COMPLETED"
-    })
+  if (
+    document.visibilityState === "hidden" &&
+    hasActiveTask &&
+    isActuallyLeaving
+  ) {
+    chrome.runtime.sendMessage({ type: "TASK_COMPLETED" })
   }
 })

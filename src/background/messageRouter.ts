@@ -10,7 +10,20 @@ chrome.runtime.onMessage.addListener((msg: ExtensionMessage, sender, sendRespons
 
     if (msg.type === "CREATE_TASK") {
       await saveTask(msg.task)
+
+      // Notify the current tab about the new task
+      const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
+      if (tab?.id) {
+        chrome.tabs.sendMessage(tab.id, {
+          type: "TASK_CREATED",
+          task: msg.task
+        }).catch(() => {
+          // Tab might not have content script loaded yet, ignore error
+        })
+      }
+
       sendResponse({ success: true })
+      return
     }
 
     if (msg.type === "TASK_COMPLETED") {
