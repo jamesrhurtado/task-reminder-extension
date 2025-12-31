@@ -1,25 +1,151 @@
 body {
-  min-width: 280px;
+  min-width: 320px;
+  max-width: 400px;
   font-family: system-ui, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+.tab-container {
+  display: flex;
+  border-bottom: 1px solid #ddd;
+  background: #f5f5f5;
+}
+
+.tab-btn {
+  flex: 1;
   padding: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  background: #e8e8e8;
+  color: #333;
+}
+
+.tab-btn.active {
+  color: #4285f4;
+  background: #fff;
+  border-bottom: 2px solid #4285f4;
+}
+
+.tab-content {
+  display: none;
+  padding: 16px;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+h3 {
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.helper-text {
+  margin: 0 0 12px 0;
+  font-size: 12px;
+  color: #666;
 }
 
 input {
   width: 100%;
+  padding: 8px;
   margin-bottom: 8px;
   box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: none;
+  border-color: #4285f4;
 }
 
 button {
   width: 100%;
+  padding: 10px;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-
 button:hover {
-  background-color: #357ae8;
+  background: #357ae8;
 }
 
 button:disabled {
-  background-color: #ccc;
+  background: #ccc;
   cursor: not-allowed;
+}
+
+.add-domain-section {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.add-domain-section input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.add-domain-section button {
+  width: auto;
+  padding: 8px 16px;
+}
+
+#domainsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#domainsList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 4px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+#domainsList li:last-child {
+  margin-bottom: 0;
+}
+
+#domainsList button {
+  width: auto;
+  padding: 4px 12px;
+  background: #dc3545;
+  font-size: 12px;
+}
+
+#domainsList button:hover {
+  background: #c82333;
+}
+
+.empty-state {
+  text-align: center;
+  color: #999;
+  padding: 20px;
+  font-size: 13px;
 }
