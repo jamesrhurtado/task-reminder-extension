@@ -1,25 +1,60 @@
-# Task Reminder Extension
+# FocusTask
 
-## Stay Focused, Be Productive
+Stay focused by defining your task before visiting distracting sites.
 
-Task Reminder is a Chrome extension designed to help you stay on track with your goals while browsing potentially distracting websites. We all know how easy it is to lose track of time on social media platforms.
+## What It Does
 
-This extension gently reminds you of your purpose when visiting specific websites, helping you maintain focus and intentionality in your online activities.
+FocusTask helps you stay intentional while browsing. Before diving into potentially distracting websites, you define what you're there to do. A floating widget reminds you of your task, and the browser warns you before leaving if you haven't marked it complete.
+
+## Features
+
+- **Auto-Prompt Sites** - Configure domains (like `linkedin.com`, `facebook.com`) that automatically ask "What's your task?" when you visit
+- **Manual Tasks** - Create tasks on any site by clicking the extension icon
+- **Floating Widget** - Non-intrusive bottom-right reminder showing your current task
+- **Leave Protection** - Browser warns you before closing/navigating away with an active task
+- **Task Completion** - Mark tasks done manually or automatically when leaving
 
 ## Installation
 
-1. Clone this repository to your local machine
-2. Open Chrome and navigate to `chrome://extensions/`
-3. Enable "Developer mode" (toggle in the top-right corner)
-4. Click "Load unpacked" and select the extension directory
-5. The extension icon should now appear in your browser toolbar
+1. Clone this repository
+2. Install dependencies: `npm install`
+3. Build the extension: `npm run build`
+4. Open Chrome and go to `chrome://extensions/`
+5. Enable "Developer mode" (top-right toggle)
+6. Click "Load unpacked" and select the `dist` folder
+7. The extension icon appears in your toolbar
 
 ## Usage
 
-- **Add Target Websites**: Click the extension icon and add websites you want to monitor
-- **Visit a Target Site**: When you visit a site on your list, you'll be prompted to:
-  - Enter the specific task you want to complete
-  - Select how much time you'll need (5, 10, or 30 minutes)
-- **Stay On Task**: A timer will count down while you work
-- **Complete Your Task**: Click "Mark as Completed" when you're done
-- **Time's Up**: Receive a friendly reminder when your allocated time expires
+### Setting Up Auto-Prompt Sites
+
+1. Click the extension icon
+2. Go to "Auto-Prompt Sites" tab
+3. Add domains like `linkedin.com`, `twitter.com`, `facebook.com`
+4. Now when you visit these sites, a modal asks for your task
+
+### Creating a Manual Task
+
+1. Visit any website
+2. Click the extension icon
+3. Enter your task and click "Save"
+4. The floating widget appears in the bottom-right
+
+### Completing Tasks
+
+- Click "Complete" on the floating widget, or
+- Close/navigate away from the page (task auto-completes)
+
+## Tech Stack
+
+- TypeScript
+- Vite + @crxjs/vite-plugin
+- Chrome Extension Manifest V3
+
+## Development
+
+```bash
+npm install     # Install dependencies
+npm run dev     # Start dev server with hot reload
+npm run build   # Build for production
+```
