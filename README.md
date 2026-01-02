@@ -16,6 +16,17 @@ FocusTask helps you stay intentional while browsing. Before diving into potentia
 
 ## Installation
 
+### From GitHub Releases (Recommended)
+
+1. Go to [Releases](../../releases) and download the latest `focustask-vX.X.X.zip`
+2. Extract the zip file
+3. Open Chrome and go to `chrome://extensions/`
+4. Enable "Developer mode" (top-right toggle)
+5. Click "Load unpacked" and select the extracted folder
+6. The extension icon appears in your toolbar
+
+### From Source
+
 1. Clone this repository
 2. Install dependencies: `npm install`
 3. Build the extension: `npm run build`
