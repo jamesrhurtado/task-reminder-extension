@@ -29,7 +29,7 @@ function createConfetti() {
 function showCompletionMessage() {
   const message = document.createElement("div")
   message.className = "completion-message"
-  message.innerHTML = `<span class="emoji">🎉</span>Task Complete!`
+  message.innerHTML = `<span class="emoji">🎉</span>Task Completed!`
   document.body.appendChild(message)
 
   // Remove after animation
