@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Chrome, Play } from "lucide-react";
+import { Download, Play } from "lucide-react";
 
 const Hero = () => {
   return (
@@ -23,7 +23,7 @@ const Hero = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-light border border-primary/20 text-primary text-sm font-medium mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
-            Free Chrome Extension
+            FocusTask - Free Chrome Extension
           </motion.div>
 
           {/* Headline */}
@@ -43,16 +43,31 @@ const Hero = () => {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col items-center justify-center gap-4"
           >
-            <Button variant="cta" size="xl">
-              <Chrome className="w-5 h-5" />
-              Add to Chrome — It's Free
-            </Button>
-            <Button variant="hero" size="lg">
-              <Play className="w-4 h-4" />
-              See how it works
-            </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Button
+                variant="cta"
+                size="xl"
+                asChild
+              >
+                <a
+                  href="https://github.com/YOUR_USERNAME/task-reminder-extension"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Download className="w-5 h-5" />
+                  Download from GitHub
+                </a>
+              </Button>
+              <Button variant="hero" size="lg">
+                <Play className="w-4 h-4" />
+                See how it works
+              </Button>
+            </div>
+            <p className="text-sm text-muted-foreground mt-2">
+              Manual installation required • Not yet on Chrome Web Store
+            </p>
           </motion.div>
         </motion.div>
 

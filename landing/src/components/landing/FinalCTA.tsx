@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Chrome, Sparkles } from "lucide-react";
+import { Download, Sparkles } from "lucide-react";
 
 const FinalCTA = () => {
   const ref = useRef(null);
@@ -39,12 +39,18 @@ const FinalCTA = () => {
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4, duration: 0.5 }}
           >
-            <Button variant="cta" size="xl" className="mb-4">
-              <Chrome className="w-5 h-5" />
-              Install Locked In on Chrome
+            <Button variant="cta" size="xl" className="mb-4" asChild>
+              <a
+                href="https://github.com/YOUR_USERNAME/task-reminder-extension"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Download className="w-5 h-5" />
+                Download from GitHub
+              </a>
             </Button>
             <p className="text-sm text-muted-foreground">
-              Free forever • No account needed • 2-click install
+              Free forever • No account needed • Manual installation required
             </p>
           </motion.div>
         </motion.div>
