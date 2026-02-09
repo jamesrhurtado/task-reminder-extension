@@ -50,7 +50,7 @@ const Benefits = () => {
               <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
                 <X className="w-4 h-4 text-muted-foreground" />
               </div>
-              What Focus Task is NOT
+              What Locked In is NOT
             </h3>
             <ul className="space-y-4">
               {nots.map((item, index) => (

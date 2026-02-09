@@ -31,7 +31,7 @@ const Privacy = () => {
             Privacy-first by design
           </h2>
           <p className="text-muted-foreground text-lg mb-10 max-w-xl mx-auto">
-            We built Focus Task to protect your attention, not collect your data.
+            We built Locked In to protect your attention, not collect your data.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4">

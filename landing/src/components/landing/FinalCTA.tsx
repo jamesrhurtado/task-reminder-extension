@@ -41,7 +41,7 @@ const FinalCTA = () => {
           >
             <Button variant="cta" size="xl" className="mb-4">
               <Chrome className="w-5 h-5" />
-              Install Focus Task on Chrome
+              Install Locked In on Chrome
             </Button>
             <p className="text-sm text-muted-foreground">
               Free forever • No account needed • 2-click install

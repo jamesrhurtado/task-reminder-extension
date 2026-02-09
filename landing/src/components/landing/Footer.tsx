@@ -8,9 +8,9 @@ const Footer = () => {
           <div className="text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-sm">FT</span>
+                <span className="text-primary-foreground font-bold text-sm">LI</span>
               </div>
-              <span className="font-semibold text-foreground">Focus Task</span>
+              <span className="font-semibold text-foreground">Locked In</span>
             </div>
             <p className="text-sm text-muted-foreground">
               Browse with intention
