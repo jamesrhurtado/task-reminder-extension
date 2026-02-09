@@ -23,6 +23,50 @@ tabBtns.forEach(btn => {
   })
 })
 
+// Time selection handling
+let selectedTimeLimit: number | undefined = undefined
+
+const timePresetBtns = document.querySelectorAll(".time-preset-btn")
+const customTimeBtn = document.getElementById("customTimeBtn")!
+const customTimeInput = document.getElementById("customTimeInput") as HTMLInputElement
+const selectedTimeDisplay = document.getElementById("selectedTime")!
+
+timePresetBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    const minutes = btn.getAttribute("data-minutes")
+    
+    // Remove active from all preset buttons
+    timePresetBtns.forEach(b => b.classList.remove("active"))
+    
+    if (btn === customTimeBtn) {
+      // Show custom input
+      customTimeInput.style.display = "block"
+      customTimeInput.focus()
+      btn.classList.add("active")
+      selectedTimeLimit = undefined
+      selectedTimeDisplay.textContent = ""
+    } else if (minutes) {
+      // Preset selected
+      btn.classList.add("active")
+      customTimeInput.style.display = "none"
+      selectedTimeLimit = parseInt(minutes)
+      selectedTimeDisplay.textContent = `⏱️ ${selectedTimeLimit} minutes selected`
+    }
+  })
+})
+
+// Handle custom time input
+customTimeInput.addEventListener("input", () => {
+  const value = parseInt(customTimeInput.value)
+  if (value && value > 0) {
+    selectedTimeLimit = value
+    selectedTimeDisplay.textContent = `⏱️ ${selectedTimeLimit} minutes selected`
+  } else {
+    selectedTimeLimit = undefined
+    selectedTimeDisplay.textContent = ""
+  }
+})
+
 // Task creation
 const taskInput = document.getElementById("taskInput") as HTMLInputElement
 const saveBtn = document.getElementById("saveBtn")!
@@ -38,7 +82,9 @@ saveBtn.addEventListener("click", async () => {
     site,
     description: taskInput.value,
     createdAt: Date.now(),
-    completed: false
+    completed: false,
+    timeLimit: selectedTimeLimit,
+    startedAt: selectedTimeLimit ? Date.now() : undefined
   }
 
   chrome.runtime.sendMessage({ type: "CREATE_TASK", task }, (response) => {

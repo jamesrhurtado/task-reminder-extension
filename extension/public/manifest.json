@@ -3,7 +3,7 @@
   "name": "FocusTask",
   "version": "0.1.0",
   "description": "Stay focused by defining your task before visiting distracting sites.",
-  "permissions": ["tabs", "storage", "scripting"],
+  "permissions": ["tabs", "storage", "scripting", "alarms"],
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "src/background/index.js",

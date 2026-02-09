@@ -1,6 +1,7 @@
 import type { ExtensionMessage } from "../shared/types"
 import { completeTaskForSite, getTaskForSite, saveTask } from "./taskManager"
 import { storage } from "../shared/storage"
+import { startTimer, stopTimer } from "./timerManager"
 
 chrome.runtime.onMessage.addListener((msg: ExtensionMessage, sender, sendResponse) => {
   (async () => {
@@ -12,6 +13,11 @@ chrome.runtime.onMessage.addListener((msg: ExtensionMessage, sender, sendRespons
 
     if (msg.type === "CREATE_TASK") {
       await saveTask(msg.task)
+      
+      // Start timer if task has time limit
+      if (msg.task.timeLimit && msg.task.startedAt) {
+        startTimer(msg.task)
+      }
 
       // Notify the current tab about the new task
       const [tab] = await chrome.tabs.query({ active: true, currentWindow: true })
@@ -30,11 +36,22 @@ chrome.runtime.onMessage.addListener((msg: ExtensionMessage, sender, sendRespons
 
     if (msg.type === "TASK_COMPLETED") {
       await completeTaskForSite(sender.tab?.url)
+      // Stop timer if any
+      if (sender.tab?.url) {
+        const site = new URL(sender.tab.url).hostname
+        stopTimer(site)
+      }
       return
     }
 
     if (msg.type === "COMPLETE_TASK_MANUALLY") {
       await completeTaskForSite(sender.tab?.url)
+      
+      // Stop timer if any
+      if (sender.tab?.url) {
+        const site = new URL(sender.tab.url).hostname
+        stopTimer(site)
+      }
 
       if (sender.tab?.id) {
         chrome.tabs.sendMessage(sender.tab.id, {

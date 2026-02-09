@@ -149,3 +149,58 @@ button:disabled {
   padding: 20px;
   font-size: 13px;
 }
+
+/* Time selection styles */
+.time-section {
+  margin: 16px 0;
+}
+
+.time-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.time-presets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.time-preset-btn {
+  width: 100%;
+  padding: 8px 4px;
+  background: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.time-preset-btn:hover {
+  background: #e8e8e8;
+  border-color: #ccc;
+}
+
+.time-preset-btn.active {
+  background: #4285f4;
+  color: white;
+  border-color: #4285f4;
+}
+
+#customTimeInput {
+  margin-bottom: 8px;
+}
+
+.selected-time {
+  font-size: 12px;
+  color: #4285f4;
+  font-weight: 500;
+  min-height: 18px;
+}

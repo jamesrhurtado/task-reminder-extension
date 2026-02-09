@@ -10,7 +10,7 @@ chrome.runtime.sendMessage(
   (task) => {
     if (task && !task.completed) {
       hasActiveTask = true
-      renderBanner(task.description)
+      renderBanner(task.description, task.timeLimit, task.startedAt)
     } else {
       // No existing task, check if this site should auto-prompt
       checkAutoPrompt()
@@ -49,6 +49,19 @@ function showTaskPrompt() {
       <h3>🧠 What's your task here?</h3>
       <p>Define your goal before continuing</p>
       <input type="text" id="focus-prompt-input" placeholder="e.g. Check messages and reply" autofocus />
+      
+      <div class="focus-time-section">
+        <label>Time Limit (optional)</label>
+        <div class="focus-time-presets">
+          <button class="focus-time-btn" data-minutes="5">5 min</button>
+          <button class="focus-time-btn" data-minutes="15">15 min</button>
+          <button class="focus-time-btn" data-minutes="30">30 min</button>
+          <button class="focus-time-btn" id="focus-custom-btn">Custom</button>
+        </div>
+        <input type="number" id="focus-custom-input" placeholder="Minutes" min="1" max="480" style="display: none;" />
+        <div class="focus-selected-time" id="focus-selected-time"></div>
+      </div>
+      
       <div class="focus-prompt-actions">
         <button id="focus-prompt-submit">Set Task</button>
         <button id="focus-prompt-skip">Skip</button>
@@ -141,6 +154,71 @@ function showTaskPrompt() {
     #focus-prompt-skip:hover {
       background: #e8e8e8;
     }
+    
+    /* Time selection in modal */
+    .focus-time-section {
+      margin: 12px 0;
+    }
+    
+    .focus-time-section label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: #666;
+      font-weight: 500;
+    }
+    
+    .focus-time-presets {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    
+    .focus-time-btn {
+      padding: 6px 4px;
+      background: #f5f5f5;
+      color: #333;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    
+    .focus-time-btn:hover {
+      background: #e8e8e8;
+      border-color: #ccc;
+    }
+    
+    .focus-time-btn.active {
+      background: #4285f4;
+      color: white;
+      border-color: #4285f4;
+    }
+    
+    #focus-custom-input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 13px;
+      margin-bottom: 6px;
+      box-sizing: border-box;
+    }
+    
+    #focus-custom-input:focus {
+      outline: none;
+      border-color: #4285f4;
+    }
+    
+    .focus-selected-time {
+      font-size: 11px;
+      color: #4285f4;
+      font-weight: 500;
+      min-height: 16px;
+    }
   `
 
   document.head.appendChild(style)
@@ -149,6 +227,46 @@ function showTaskPrompt() {
   const input = document.getElementById("focus-prompt-input") as HTMLInputElement
   const submitBtn = document.getElementById("focus-prompt-submit")!
   const skipBtn = document.getElementById("focus-prompt-skip")!
+
+  // Time selection handling
+  let selectedTimeLimit: number | undefined = undefined
+  const timeBtns = overlay.querySelectorAll(".focus-time-btn")
+  const customBtn = document.getElementById("focus-custom-btn")!
+  const customInput = document.getElementById("focus-custom-input") as HTMLInputElement
+  const selectedTimeDisplay = document.getElementById("focus-selected-time")!
+
+  timeBtns.forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault()
+      const minutes = btn.getAttribute("data-minutes")
+      
+      timeBtns.forEach(b => b.classList.remove("active"))
+      
+      if (btn === customBtn) {
+        customInput.style.display = "block"
+        customInput.focus()
+        btn.classList.add("active")
+        selectedTimeLimit = undefined
+        selectedTimeDisplay.textContent = ""
+      } else if (minutes) {
+        btn.classList.add("active")
+        customInput.style.display = "none"
+        selectedTimeLimit = parseInt(minutes)
+        selectedTimeDisplay.textContent = `⏱️ ${selectedTimeLimit} minutes`
+      }
+    })
+  })
+
+  customInput.addEventListener("input", () => {
+    const value = parseInt(customInput.value)
+    if (value && value > 0) {
+      selectedTimeLimit = value
+      selectedTimeDisplay.textContent = `⏱️ ${selectedTimeLimit} minutes`
+    } else {
+      selectedTimeLimit = undefined
+      selectedTimeDisplay.textContent = ""
+    }
+  })
 
   input.focus()
 
@@ -162,12 +280,14 @@ function showTaskPrompt() {
       site,
       description,
       createdAt: Date.now(),
-      completed: false
+      completed: false,
+      timeLimit: selectedTimeLimit,
+      startedAt: selectedTimeLimit ? Date.now() : undefined
     }
 
     chrome.runtime.sendMessage({ type: "CREATE_TASK", task }, () => {
       hasActiveTask = true
-      renderBanner(description)
+      renderBanner(description, selectedTimeLimit, selectedTimeLimit ? Date.now() : undefined)
       overlay.remove()
     })
   }
@@ -182,15 +302,104 @@ function showTaskPrompt() {
   })
 }
 
+// Show timer expired message
+function showTimerExpiredMessage() {
+  console.log("[TIMER_EXPIRED] Showing timer expired message")
+  const message = document.createElement("div")
+  message.className = "timer-expired-message"
+  message.innerHTML = `
+    <div class="timer-expired-content">
+      <span class="emoji">⏰</span>
+      <div>Time's up!</div>
+      <div class="timer-expired-subtext">Your focus session has ended</div>
+    </div>
+  `
+  
+  const style = document.createElement("style")
+  style.textContent = `
+    .timer-expired-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 24px 32px;
+      border-radius: 16px;
+      z-index: 9999999;
+      box-shadow: 0 10px 40px rgba(240, 147, 251, 0.4);
+      animation: timer-pop-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+      text-align: center;
+    }
+    
+    .timer-expired-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .timer-expired-message .emoji {
+      font-size: 48px;
+      display: block;
+    }
+    
+    .timer-expired-message > div {
+      font-size: 20px;
+      font-weight: bold;
+    }
+    
+    .timer-expired-subtext {
+      font-size: 14px !important;
+      font-weight: normal !important;
+      opacity: 0.9;
+    }
+    
+    @keyframes timer-pop-in {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+  `
+  
+  document.head.appendChild(style)
+  document.body.appendChild(message)
+  
+  setTimeout(() => message.remove(), 3000)
+}
+
 chrome.runtime.onMessage.addListener((msg) => {
   switch (msg.type) {
     case "TASK_CREATED":
       hasActiveTask = true
-      renderBanner(msg.task.description)
+      renderBanner(msg.task.description, msg.task.timeLimit, msg.task.startedAt)
       break
 
     case "TASK_COMPLETED_UI":
       hasActiveTask = false
+      break
+      
+    case "TIMER_EXPIRED":
+      // Timer expired, auto-complete task
+      console.log("[TIMER_EXPIRED] Received message", { msgSite: msg.site, currentSite: site, hasActiveTask })
+      if (msg.site === site && hasActiveTask) {
+        console.log("[TIMER_EXPIRED] Conditions met, showing message")
+        hasActiveTask = false
+        const banner = document.getElementById("focus-task-banner")
+        if (banner) banner.remove()
+        // Show timer expired notification
+        showTimerExpiredMessage()
+      } else {
+        console.log("[TIMER_EXPIRED] Conditions not met, skipping")
+      }
       break
   }
 })
