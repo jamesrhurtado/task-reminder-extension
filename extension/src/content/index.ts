@@ -40,31 +40,31 @@ function checkAutoPrompt() {
 // Show prompt modal for task input
 function showTaskPrompt() {
   // Check if prompt already exists
-  if (document.getElementById("focus-task-prompt")) return
+  if (document.getElementById("locked-in-prompt")) return
 
   const overlay = document.createElement("div")
-  overlay.id = "focus-task-prompt"
+  overlay.id = "locked-in-prompt"
   overlay.innerHTML = `
-    <div class="focus-prompt-modal">
-      <h3>🧠 What's your task here?</h3>
+    <div class="locked-in-modal">
+      <h3>🔒 What are you locked in for?</h3>
       <p>Define your goal before continuing</p>
-      <input type="text" id="focus-prompt-input" placeholder="e.g. Check messages and reply" autofocus />
-      
-      <div class="focus-time-section">
+      <input type="text" id="locked-in-input" placeholder="e.g. Check messages and reply" autofocus />
+
+      <div class="locked-in-time-section">
         <label>Time Limit (optional)</label>
-        <div class="focus-time-presets">
-          <button class="focus-time-btn" data-minutes="5">5 min</button>
-          <button class="focus-time-btn" data-minutes="15">15 min</button>
-          <button class="focus-time-btn" data-minutes="30">30 min</button>
-          <button class="focus-time-btn" id="focus-custom-btn">Custom</button>
+        <div class="locked-in-time-presets">
+          <button class="locked-in-time-btn" data-minutes="5">5 min</button>
+          <button class="locked-in-time-btn" data-minutes="15">15 min</button>
+          <button class="locked-in-time-btn" data-minutes="30">30 min</button>
+          <button class="locked-in-time-btn" id="locked-in-custom-btn">Custom</button>
         </div>
-        <input type="number" id="focus-custom-input" placeholder="Minutes" min="1" max="480" style="display: none;" />
-        <div class="focus-selected-time" id="focus-selected-time"></div>
+        <input type="number" id="locked-in-custom-input" placeholder="Minutes" min="1" max="480" style="display: none;" />
+        <div class="locked-in-selected-time" id="locked-in-selected-time"></div>
       </div>
-      
-      <div class="focus-prompt-actions">
-        <button id="focus-prompt-submit">Set Task</button>
-        <button id="focus-prompt-skip">Skip</button>
+
+      <div class="locked-in-actions">
+        <button id="locked-in-submit">Lock In</button>
+        <button id="locked-in-skip">Skip</button>
       </div>
     </div>
   `
@@ -72,7 +72,7 @@ function showTaskPrompt() {
   // Add styles
   const style = document.createElement("style")
   style.textContent = `
-    #focus-task-prompt {
+    #locked-in-prompt {
       position: fixed;
       top: 0;
       left: 0;
@@ -85,7 +85,7 @@ function showTaskPrompt() {
       z-index: 9999999;
     }
 
-    .focus-prompt-modal {
+    .locked-in-modal {
       background: white;
       padding: 24px;
       border-radius: 8px;
@@ -94,19 +94,19 @@ function showTaskPrompt() {
       width: 90%;
     }
 
-    .focus-prompt-modal h3 {
+    .locked-in-modal h3 {
       margin: 0 0 8px 0;
       color: #333;
       font-size: 20px;
     }
 
-    .focus-prompt-modal p {
+    .locked-in-modal p {
       margin: 0 0 16px 0;
       color: #666;
       font-size: 14px;
     }
 
-    .focus-prompt-modal input {
+    .locked-in-modal input {
       width: 100%;
       padding: 10px;
       border: 1px solid #ddd;
@@ -116,17 +116,17 @@ function showTaskPrompt() {
       box-sizing: border-box;
     }
 
-    .focus-prompt-modal input:focus {
+    .locked-in-modal input:focus {
       outline: none;
       border-color: #4285f4;
     }
 
-    .focus-prompt-actions {
+    .locked-in-actions {
       display: flex;
       gap: 8px;
     }
 
-    .focus-prompt-actions button {
+    .locked-in-actions button {
       flex: 1;
       padding: 10px;
       border: none;
@@ -137,45 +137,45 @@ function showTaskPrompt() {
       transition: all 0.2s ease;
     }
 
-    #focus-prompt-submit {
+    #locked-in-submit {
       background: #4285f4;
       color: white;
     }
 
-    #focus-prompt-submit:hover {
+    #locked-in-submit:hover {
       background: #357ae8;
     }
 
-    #focus-prompt-skip {
+    #locked-in-skip {
       background: #f5f5f5;
       color: #666;
     }
 
-    #focus-prompt-skip:hover {
+    #locked-in-skip:hover {
       background: #e8e8e8;
     }
-    
+
     /* Time selection in modal */
-    .focus-time-section {
+    .locked-in-time-section {
       margin: 12px 0;
     }
-    
-    .focus-time-section label {
+
+    .locked-in-time-section label {
       display: block;
       margin-bottom: 6px;
       font-size: 12px;
       color: #666;
       font-weight: 500;
     }
-    
-    .focus-time-presets {
+
+    .locked-in-time-presets {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 6px;
       margin-bottom: 6px;
     }
-    
-    .focus-time-btn {
+
+    .locked-in-time-btn {
       padding: 6px 4px;
       background: #f5f5f5;
       color: #333;
@@ -186,19 +186,19 @@ function showTaskPrompt() {
       cursor: pointer;
       transition: all 0.2s ease;
     }
-    
-    .focus-time-btn:hover {
+
+    .locked-in-time-btn:hover {
       background: #e8e8e8;
       border-color: #ccc;
     }
-    
-    .focus-time-btn.active {
+
+    .locked-in-time-btn.active {
       background: #4285f4;
       color: white;
       border-color: #4285f4;
     }
-    
-    #focus-custom-input {
+
+    #locked-in-custom-input {
       width: 100%;
       padding: 8px;
       border: 1px solid #ddd;
@@ -207,13 +207,13 @@ function showTaskPrompt() {
       margin-bottom: 6px;
       box-sizing: border-box;
     }
-    
-    #focus-custom-input:focus {
+
+    #locked-in-custom-input:focus {
       outline: none;
       border-color: #4285f4;
     }
-    
-    .focus-selected-time {
+
+    .locked-in-selected-time {
       font-size: 11px;
       color: #4285f4;
       font-weight: 500;
@@ -224,16 +224,16 @@ function showTaskPrompt() {
   document.head.appendChild(style)
   document.body.appendChild(overlay)
 
-  const input = document.getElementById("focus-prompt-input") as HTMLInputElement
-  const submitBtn = document.getElementById("focus-prompt-submit")!
-  const skipBtn = document.getElementById("focus-prompt-skip")!
+  const input = document.getElementById("locked-in-input") as HTMLInputElement
+  const submitBtn = document.getElementById("locked-in-submit")!
+  const skipBtn = document.getElementById("locked-in-skip")!
 
   // Time selection handling
   let selectedTimeLimit: number | undefined = undefined
-  const timeBtns = overlay.querySelectorAll(".focus-time-btn")
-  const customBtn = document.getElementById("focus-custom-btn")!
-  const customInput = document.getElementById("focus-custom-input") as HTMLInputElement
-  const selectedTimeDisplay = document.getElementById("focus-selected-time")!
+  const timeBtns = overlay.querySelectorAll(".locked-in-time-btn")
+  const customBtn = document.getElementById("locked-in-custom-btn")!
+  const customInput = document.getElementById("locked-in-custom-input") as HTMLInputElement
+  const selectedTimeDisplay = document.getElementById("locked-in-selected-time")!
 
   timeBtns.forEach(btn => {
     btn.addEventListener("click", (e) => {
@@ -496,7 +496,7 @@ chrome.runtime.onMessage.addListener((msg) => {
       if (msg.site === site && hasActiveTask) {
         console.log("[TIMER_EXPIRED] Conditions met, showing message")
         hasActiveTask = false
-        const banner = document.getElementById("focus-task-banner")
+        const banner = document.getElementById("locked-in-banner")
         if (banner) banner.remove()
         // Show timer expired notification
         showTimerExpiredMessage()

@@ -54,14 +54,14 @@ function getTimerColor(percentRemaining: number): string {
 }
 
 export function renderBanner(description: string, timeLimit?: number, startedAt?: number) {
-  if (document.getElementById("focus-task-banner")) return
+  if (document.getElementById("locked-in-banner")) return
 
   const banner = document.createElement("div")
-  banner.id = "focus-task-banner"
+  banner.id = "locked-in-banner"
 
   const text = document.createElement("span")
   text.className = "task-description"
-  text.textContent = `🧠 Task: ${description}`
+  text.textContent = `🔒 Locked In: ${description}`
 
   // Timer display
   let timerDisplay: HTMLElement | null = null

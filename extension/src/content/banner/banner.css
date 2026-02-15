@@ -1,4 +1,4 @@
-#focus-task-banner {
+#locked-in-banner {
   position: fixed;
   bottom: 24px;
   right: 24px;
@@ -16,7 +16,7 @@
   max-width: 400px;
 }
 
-#focus-task-banner .task-description {
+#locked-in-banner .task-description {
   word-break: break-word;
   line-height: 1.4;
 }
@@ -49,7 +49,7 @@
   letter-spacing: 0.5px;
 }
 
-#focus-task-banner button {
+#locked-in-banner button {
   background: #4CAF50;
   color: #fff;
   border: none;
@@ -62,11 +62,11 @@
   width: 100%;
 }
 
-#focus-task-banner button:hover {
+#locked-in-banner button:hover {
   background: #45a049;
 }
 
-#focus-task-banner button:active {
+#locked-in-banner button:active {
   transform: scale(0.98);
 }
 
