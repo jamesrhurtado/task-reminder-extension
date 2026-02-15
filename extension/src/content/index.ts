@@ -302,6 +302,98 @@ function showTaskPrompt() {
   })
 }
 
+// Dynamic warning messages for 80% threshold
+const WARNING_MESSAGES = [
+  { emoji: "⏰", text: "Hey, you said you were here for a reason", subtext: "20% of your time left" },
+  { emoji: "🎯", text: "Focus up! Time is running out", subtext: "Stay locked in" },
+  { emoji: "⚡", text: "Almost there! Don't lose momentum", subtext: "80% time elapsed" },
+  { emoji: "🔥", text: "Time to finish strong", subtext: "The clock is ticking" },
+  { emoji: "💪", text: "You've got this! Push through", subtext: "Final stretch ahead" },
+  { emoji: "🚀", text: "Make these last minutes count", subtext: "Stay on target" },
+  { emoji: "⌛", text: "Crunch time! Wrap it up", subtext: "Time flies when you're focused" },
+  { emoji: "🎪", text: "The show must go on", subtext: "But not for much longer" },
+  { emoji: "🧠", text: "Remember why you came here", subtext: "Finish what you started" },
+  { emoji: "✨", text: "Sprint to the finish line", subtext: "You're in the home stretch" }
+]
+
+// Show timer warning message at 80%
+function showTimerWarning() {
+  console.log("[TIMER_WARNING] Showing timer warning message")
+
+  // Pick a random message
+  const randomMessage = WARNING_MESSAGES[Math.floor(Math.random() * WARNING_MESSAGES.length)]
+
+  const message = document.createElement("div")
+  message.className = "timer-warning-message"
+  message.innerHTML = `
+    <div class="timer-warning-content">
+      <span class="emoji">${randomMessage?.emoji ?? "⏰"}</span>
+      <div>${randomMessage?.text ?? "Time is running out"}</div>
+      <div class="timer-warning-subtext">${randomMessage?.subtext ?? "Stay focused"}</div>
+    </div>
+  `
+
+  const style = document.createElement("style")
+  style.textContent = `
+    .timer-warning-message {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: linear-gradient(135deg, #FF9800 0%, #FF5722 100%);
+      color: white;
+      padding: 24px 32px;
+      border-radius: 16px;
+      z-index: 9999999;
+      box-shadow: 0 10px 40px rgba(255, 152, 0, 0.5);
+      animation: timer-pop-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+      text-align: center;
+    }
+
+    .timer-warning-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .timer-warning-message .emoji {
+      font-size: 48px;
+      display: block;
+    }
+
+    .timer-warning-message > div {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .timer-warning-subtext {
+      font-size: 14px !important;
+      font-weight: normal !important;
+      opacity: 0.95;
+    }
+
+    @keyframes timer-pop-in {
+      0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+      }
+    }
+  `
+
+  document.head.appendChild(style)
+  document.body.appendChild(message)
+
+  setTimeout(() => message.remove(), 4000)
+}
+
 // Show timer expired message
 function showTimerExpiredMessage() {
   console.log("[TIMER_EXPIRED] Showing timer expired message")
@@ -314,7 +406,7 @@ function showTimerExpiredMessage() {
       <div class="timer-expired-subtext">Your focus session has ended</div>
     </div>
   `
-  
+
   const style = document.createElement("style")
   style.textContent = `
     .timer-expired-message {
@@ -331,30 +423,30 @@ function showTimerExpiredMessage() {
       animation: timer-pop-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
       text-align: center;
     }
-    
+
     .timer-expired-content {
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 4px;
     }
-    
+
     .timer-expired-message .emoji {
       font-size: 48px;
       display: block;
     }
-    
+
     .timer-expired-message > div {
       font-size: 20px;
       font-weight: bold;
     }
-    
+
     .timer-expired-subtext {
       font-size: 14px !important;
       font-weight: normal !important;
       opacity: 0.9;
     }
-    
+
     @keyframes timer-pop-in {
       0% {
         transform: translate(-50%, -50%) scale(0);
@@ -369,10 +461,10 @@ function showTimerExpiredMessage() {
       }
     }
   `
-  
+
   document.head.appendChild(style)
   document.body.appendChild(message)
-  
+
   setTimeout(() => message.remove(), 3000)
 }
 
@@ -386,7 +478,18 @@ chrome.runtime.onMessage.addListener((msg) => {
     case "TASK_COMPLETED_UI":
       hasActiveTask = false
       break
-      
+
+    case "TIMER_WARNING":
+      // Timer warning at 80%
+      console.log("[TIMER_WARNING] Received message", { msgSite: msg.site, currentSite: site, hasActiveTask })
+      if (msg.site === site && hasActiveTask) {
+        console.log("[TIMER_WARNING] Conditions met, showing warning")
+        showTimerWarning()
+      } else {
+        console.log("[TIMER_WARNING] Conditions not met, skipping")
+      }
+      break
+
     case "TIMER_EXPIRED":
       // Timer expired, auto-complete task
       console.log("[TIMER_EXPIRED] Received message", { msgSite: msg.site, currentSite: site, hasActiveTask })
