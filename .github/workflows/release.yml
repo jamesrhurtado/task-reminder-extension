@@ -35,12 +35,12 @@ jobs:
       - name: Create zip file
         run: |
           cd dist
-          zip -r ../../focustask-${{ github.ref_name }}.zip .
+          zip -r ../../locked-in-${{ github.ref_name }}.zip .
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: focustask-${{ github.ref_name }}.zip
+          files: locked-in-${{ github.ref_name }}.zip
           generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

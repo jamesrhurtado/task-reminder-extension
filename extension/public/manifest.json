@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "FocusTask",
-  "version": "0.1.0",
-  "description": "Stay focused by defining your task before visiting distracting sites.",
+  "name": "Locked In",
+  "version": "0.2.0",
+  "description": "Stay focused by defining your goal before visiting distracting sites.",
   "permissions": ["tabs", "storage", "scripting", "alarms"],
   "host_permissions": ["<all_urls>"],
   "background": {
