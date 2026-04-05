@@ -41,7 +41,7 @@ const FinalCTA = () => {
           >
             <Button variant="cta" size="xl" className="mb-4" asChild>
               <a
-                href="https://github.com/YOUR_USERNAME/task-reminder-extension"
+                href="https://github.com/jamesrhurtado/task-reminder-extension"
                 target="_blank"
                 rel="noopener noreferrer"
               >
