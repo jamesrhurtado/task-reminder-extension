@@ -23,7 +23,7 @@ const Hero = () => {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-light border border-primary/20 text-primary text-sm font-medium mb-8"
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse-soft" />
-            FocusTask - Free Chrome Extension
+            Locked In - Free Chrome Extension
           </motion.div>
 
           {/* Headline */}
@@ -60,13 +60,17 @@ const Hero = () => {
                   Download from GitHub
                 </a>
               </Button>
-              <Button variant="hero" size="lg">
+              <Button
+                variant="hero"
+                size="lg"
+                onClick={() => document.getElementById("how-it-works")?.scrollIntoView({ behavior: "smooth" })}
+              >
                 <Play className="w-4 h-4" />
                 See how it works
               </Button>
             </div>
             <p className="text-sm text-muted-foreground mt-2">
-              Manual installation required • Not yet on Chrome Web Store
+              Install in seconds from GitHub • Not yet on Chrome Web Store
             </p>
           </motion.div>
         </motion.div>

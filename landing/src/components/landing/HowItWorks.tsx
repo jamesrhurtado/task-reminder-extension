@@ -89,7 +89,7 @@ const HowItWorks = () => {
   );
 
   return (
-    <section ref={ref} className="section-padding">
+    <section ref={ref} id="how-it-works" className="section-padding">
       <div className="container-wide">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

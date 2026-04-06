@@ -19,13 +19,9 @@ const Footer = () => {
 
           <div className="flex items-center gap-6">
             <a
-              href="#"
-              className="text-muted-foreground hover:text-foreground transition-colors text-sm"
-            >
-              Privacy
-            </a>
-            <a
-              href="#"
+              href="https://github.com/jamesrhurtado/task-reminder-extension"
+              target="_blank"
+              rel="noopener noreferrer"
               className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors text-sm"
             >
               <Github className="w-4 h-4" />

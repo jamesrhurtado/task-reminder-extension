@@ -5,7 +5,6 @@ import { X, Check } from "lucide-react";
 
 const nots = [
   "No website blocking",
-  "No timers",
   "No pressure",
   "No guilt",
 ];
